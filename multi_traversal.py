@@ -17,7 +17,7 @@ by Alecto_Fsociety (https://github.com/Alecto-Fsociety)
 print(banner)
 
 class Multi_Traversal:
-    def __init__(self,target_url,path_name,port):
+    def __init__(self,target_url,path_name,port,add_status):
         self.target_url = target_url
         self.path_name = path_name
 
@@ -35,6 +35,8 @@ class Multi_Traversal:
         self.date = datetime.now()
 
         self.status_list = {"200","301","302"}
+
+        [self.status_list.add(status_data) for status_data in add_status] if add_status else self.status_list
 
         self.out_dir_name = "Checked_Dir_Paths"
         self.out_file = f"{self.date.year}_{self.date.month}-{self.date.day}_{self.date.hour}-{self.date.minute}_traversal.log"
@@ -62,6 +64,9 @@ class Multi_Traversal:
             new_file_name = ((self.out_file_name).split(".")[0]) + "_checked.log"
             with open(f"{self.out_dir_name}/{new_file_name}","w+",encoding="utf-8")as save_files:
                 [save_files.write(f"{data}\n") for data in list_data]
+
+        except FileNotFoundError:
+            sys.stdout.write("\n[-] Not Traversal Logs...\n")
 
         except KeyboardInterrupt:
             pass
@@ -130,11 +135,12 @@ def main():
         arg = argparse.ArgumentParser()
         arg.add_argument("-url",type=str,required=True,help="[>] target_url / -url <target_url>")
         arg.add_argument("-w",type=str,required=True,help="[>] wordlists / -w <wordlists>")
+        arg.add_argument("-s",type=str,required=False,nargs="*",help="[>] add_status / -s <add_status>")
         arg.add_argument("-p",type=int,help="[>] Port_Numbers / -p <port_numbers>")
         arg.add_argument("-t",type=int,default=4,help="[>] Thread_Number / -t <thread_number>")
         parse = arg.parse_args()
 
-        instance_traversal = Multi_Traversal(parse.url,parse.w,parse.p)
+        instance_traversal = Multi_Traversal(parse.url,parse.w,parse.p,parse.s)
 
         with Pool(parse.t) as pool:
             pool.starmap(instance_works, [(instance_traversal,)] * parse.t,chunksize=1)
