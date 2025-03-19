@@ -77,7 +77,7 @@ python3 multi_traversal.py -url "https://target.com" -w wordlist.txt -p 8080
 ---
 
 ## **🐝 License**
-This project is licensed under the **[MIT License](https://opensource.org/licenses/MIT)**.  
+This project is licensed under the **[MIT License](https://github.com/Alecto-Fsociety/Alecto-Fsociety/blob/main/LICENSE)**.  
 You are free to use and modify it, but must comply with the license terms when using it for commercial purposes.
 
 ---
